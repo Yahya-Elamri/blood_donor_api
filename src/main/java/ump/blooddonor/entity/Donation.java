@@ -18,6 +18,7 @@ public class Donation {
 
     private LocalDate date;
     private String lieu;
+    private int amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "donor_id")
