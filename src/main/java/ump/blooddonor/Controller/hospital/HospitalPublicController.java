@@ -1,4 +1,4 @@
-package ump.blooddonor.Controller;
+package ump.blooddonor.Controller.hospital;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,34 +10,16 @@ import ump.blooddonor.services.HospitalService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/requests/hospitals")
+@RequestMapping("/api/hospitals")
 @RequiredArgsConstructor
-public class HospitalController {
+public class HospitalPublicController {
 
     private final HospitalService hospitalService;
-
-    @PostMapping
-    public ResponseEntity<Hospital> createHospital(@RequestBody Hospital hospital) {
-        Hospital createdHospital = hospitalService.createHospital(hospital);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdHospital);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Hospital> getHospitalById(@PathVariable Long id) {
         Hospital hospital = hospitalService.getHospitalById(id);
         return ResponseEntity.ok(hospital);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Hospital> updateHospital(@PathVariable Long id, @RequestBody Hospital hospitalDetails) {
-        Hospital updatedHospital = hospitalService.updateHospital(id, hospitalDetails);
-        return ResponseEntity.ok(updatedHospital);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHospital(@PathVariable Long id) {
-        hospitalService.deleteHospital(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

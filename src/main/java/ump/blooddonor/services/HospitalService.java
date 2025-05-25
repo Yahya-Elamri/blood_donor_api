@@ -37,5 +37,9 @@ public class HospitalService {
     public List<Hospital> getAllHospitals() {
         return hospitalRepository.findAll();
     }
+
+    public List<Hospital> searchByName(String nom) {
+        return hospitalRepository.findByNomContainingIgnoreCase(nom);
+    }
 }
 
