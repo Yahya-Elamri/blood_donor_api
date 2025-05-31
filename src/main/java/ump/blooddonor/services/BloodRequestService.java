@@ -1,7 +1,9 @@
 package ump.blooddonor.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import ump.blooddonor.DTO.BloodRequestCreatedEvent;
 import ump.blooddonor.Exception.ResourceNotFoundException;
 import ump.blooddonor.entity.*;
 import ump.blooddonor.repository.BloodRequestRepository;
@@ -16,6 +18,7 @@ public class BloodRequestService {
     private final BloodRequestRepository bloodRequestRepository;
     private final HospitalRepository hospitalRepository;
     private final HospitalUserService hospitalUserService;
+    private final ApplicationEventPublisher eventPublisher; // Add this
 
     public BloodRequest createBloodRequest(BloodRequest bloodRequest, Long hospitalId, Long createdById) {
         Hospital hospital = hospitalRepository.findById(hospitalId)
@@ -27,7 +30,9 @@ public class BloodRequestService {
         bloodRequest.setDateDemande(LocalDateTime.now());
         bloodRequest.setStatut(RequestStatus.PENDING);
 
-        return bloodRequestRepository.save(bloodRequest);
+        BloodRequest savedRequest = bloodRequestRepository.save(bloodRequest);
+        eventPublisher.publishEvent(new BloodRequestCreatedEvent(savedRequest)); // Trigger event
+        return savedRequest;
     }
 
     public BloodRequest updateRequestStatus(Long id, RequestStatus status) {

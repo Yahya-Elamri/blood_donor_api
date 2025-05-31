@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/hospitals/**").permitAll()
+                .requestMatchers("/api/donorsmessage/**").permitAll()
                 .requestMatchers("/api/requests/**").hasAnyAuthority("HOSPITAL")  // Admin-only endpoints
                 .requestMatchers("/api/donors/**").hasAuthority("DONOR")  // User endpoints
                 .anyRequest().authenticated()

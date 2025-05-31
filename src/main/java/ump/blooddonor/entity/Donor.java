@@ -9,15 +9,17 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
+@NamedEntityGraph(
+        name = "Donor.withFcmTokens",
+        attributeNodes = @NamedAttributeNode("fcmTokens")
+)
 public class Donor extends User {
     @Enumerated(EnumType.STRING)
     private BloodType groupeSanguin;
@@ -29,4 +31,9 @@ public class Donor extends User {
     @ToString.Exclude
     @JsonManagedReference("donor-donations")
     private List<Donation> donations = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "donor_fcm_tokens", joinColumns = @JoinColumn(name = "donor_id"))
+    @Column(name = "fcm_token")
+    private Set<String> fcmTokens = new HashSet<>();
 }
