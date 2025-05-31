@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### STS ###
+/src/main/resources/firebase-service-account.json
 .apt_generated
 .classpath
 .factorypath
