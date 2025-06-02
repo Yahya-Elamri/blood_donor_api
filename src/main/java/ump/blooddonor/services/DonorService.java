@@ -10,6 +10,7 @@ import ump.blooddonor.repository.DonorRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DonorService {
@@ -52,6 +53,10 @@ public class DonorService {
     public Donor getDonorById(Long id) {
         return donorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Donneur non trouvé avec l'ID: " + id));
+    }
+
+    public Optional<Donor> getDonorByEmail(String email) {
+        return donorRepository.findByEmail(email);
     }
 
     // Mise à jour du donneur
